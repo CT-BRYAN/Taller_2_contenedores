@@ -1,10 +1,10 @@
 package ec.edu.uce.pa.paquete;
 
-import jakarta.inject.Singleton;
+import jakarta.enterprise.context.ApplicationScoped;
 
-//@ApplicationScoped  //dedlego el control al contenedor ARC
+@ApplicationScoped  //dedlego el control al contenedor ARC
 //@RequestScoped  // para aplicaciones web
-@Singleton 
+//@Singleton 
 public class MailService {
 
     public void enviar(String correo, String asunto, String cuerpo) {
