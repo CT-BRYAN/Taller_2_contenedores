@@ -10,6 +10,8 @@ public class Main implements QuarkusApplication {
 
     @Inject
     private PedidoService pedidoService;
+    @Inject 
+    private CompraService compraService;
 
     public static void main(String[] args) {
         Quarkus.run(Main.class, args);
@@ -23,6 +25,10 @@ public class Main implements QuarkusApplication {
         Pedido pedido = new Pedido("Juan Perez", "Laptop", 1250, "juan@gmail.com");// crear manualmente el objeto de la
         pedido.setTelefono("1215454545"); // // clase Pedido
         this.pedidoService.realizar(pedido);
+
+        Compra compra=new Compra("Bryan", "Celular", 1500, "dbryan@gmail.com", "09820552003");
+        compraService.realizar(compra);
+
 
         return 0;
 
