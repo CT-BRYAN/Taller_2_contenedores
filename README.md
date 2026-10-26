@@ -1,62 +1,30 @@
-# pa2_u1_cc_ec
+# Simulador de Descuentos con Quarkus
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+## Preguntas de análisis
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+1. ¿En qué parte del ejercicio se aplica IoC y en cuál DI?
 
-## Running the application in dev mode
+Inversión de Control (IoC): 
+Se aplica en clases anotadas como Main, VentaService, Auditoria, DescuentoRegular y DescuentoVIP.   
+Inyección de Dependencias (DI):
+En la clase Main para inyectar VentaService, en la clase VentaService para inyectar los calculadores de descuento mediante atributos con @Named descuentoRegular y descuentoVIP y para inyectar Auditoria a través del constructor.  
 
-You can run your application in dev mode that enables live coding using:
+2. ¿Qué función cumplen los Qualifiers y por qué son necesarios?
 
-```shell script
-./mvnw quarkus:dev
-```
+Los Qualifiers sirven para distinguir entre múltiples implementaciones de una misma interfaz.
+Son necesarios por que existen dos clases DescuentoRegular y DescuentoVIP que implementan la misma interfaz CalculadoraDescuento. Si se intentara inyectar CalculadoraDescuento sin un calificador, el contenedor de CDI no sabría cuál de las dos clases elegir, lo que generaría un error de ambigüedad AmbiguousResolutionException. Los calificadores permiten especificar exactamente qué implementación se requiere en cada punto de inyección.
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+3. ¿Cuál es la diferencia entre @ApplicationScoped y @Dependent?
 
-## Packaging and running the application
+@ApplicationScoped: Define un ámbito de aplicación. Solo existe una única instancia de la clase en toda la aplicación. Dicha instancia se crea la primera vez que se solicita y se comparte entre todos los puntos de inyección durante todo el tiempo de ejecución   
+@Dependent: Es el ámbito por defecto. No gestiona una instancia compartida; en su lugar, se crea una nueva instancia por cada punto de inyección, y su ciclo de vida está estrictamente ligado al objeto que lo contiene
 
-The application can be packaged using:
+4. ¿Por qué las instancias @ApplicationScoped pueden reutilizarse entre varias ventas?
 
-```shell script
-./mvnw package
-```
+Porque el contenedor ArC mantiene una referencia única para la aplicación completa. Al ser un objeto stateless sin estado mutable por venta, las invocaciones concurrentes o secuenciales a descuentoRegular y descuentoVIP reutilizan exactamente la misma instancia en memoria, reduciendo el consumo de recursos.
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+5. ¿Qué sucedería si se elimina el Qualifier de un punto de inyección de CalculadoraDescuento?
 
-If you want to build an _über-jar_, execute the following command:
+Si se elimina el calificador en uno de los atributos inyectados de VentaService, el contenedor CDI detectará que hay múltiples clases que implementan la interfaz CalculadoraDescuento sin saber cuál inyectar. Como consecuencia, Quarkus arrojará una excepción de resolución ambigua AmbiguousResolutionException al iniciar la aplicación y esta no podrá compilar o arrancar correctamente.
 
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./mvnw package -Dnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/pa2_u1_cc_ec-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Provided Code
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
