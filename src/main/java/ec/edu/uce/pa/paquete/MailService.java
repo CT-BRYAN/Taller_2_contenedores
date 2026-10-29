@@ -10,8 +10,8 @@ import jakarta.inject.Singleton;
 //ApplicationScoped  //su ambito es durante toda la aplicaacion, se crea una sola instancia de la clase y se comparte entre todos los componenetes que la utiliusan
 //@RequestScoped  // su ambito es en apliccaciones WEB durante el recuest-peticion HTTP es decir se crea u
 //@SessionScoped  // su ambito es en una palicacion  web durante la secion del usuario
-//@Singleton //su ambito es durante toda la aplicaacion, se crea una sola instancia de la clase y se comparte entre todos los componenetes que la utiliusan
-@Dependent // sua mbito es durante la inyeccion de dependenciaas es decir se crea se crea una sola instancia de la clase y se comparte entre todos los componenetes que la utiliuzan durante la inyeccion de dependencias
+@Singleton //su ambito es durante toda la aplicaacion, se crea una sola instancia de la clase y se comparte entre todos los componenetes que la utiliusan
+//@Dependent // sua mbito es durante la inyeccion de dependenciaas es decir se crea se crea una sola instancia de la clase y se comparte entre todos los componenetes que la utiliuzan durante la inyeccion de dependencias
 @Named("mail")
 public class MailService implements Notificacion {
 
