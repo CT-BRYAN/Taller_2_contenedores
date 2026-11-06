@@ -9,19 +9,16 @@ import jakarta.inject.Inject;
 public class Main implements QuarkusApplication {
 
     @Inject
-    private VentaService ventaService;
+    private ProductoService productoService;
 
     @Override
     public int run(String... args) throws Exception {
 
-        System.out.println("\nSIMULADOR DE DESCUENTOS CON QUARKUS\n");
+        System.out.println("INICIANDO APLICACIÓN");
 
-        ventaService.procesarVenta(1, "REGULAR", 100);
-        ventaService.procesarVenta(2, "VIP", 200);
-        ventaService.procesarVenta(3, "REGULAR", 300);
-        ventaService.procesarVenta(4, "VIP", 500);
+        this.productoService.procesarCompra("Laptop Titan 18 HX A14V");
 
-        System.out.println("FIN DEL PROGRAMA");
+        System.out.println("FIN DE LA APLICACIÓN");
 
         return 0;
 
