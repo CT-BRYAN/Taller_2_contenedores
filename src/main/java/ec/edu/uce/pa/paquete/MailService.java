@@ -1,8 +1,6 @@
 package ec.edu.uce.pa.paquete;
 
-import io.quarkus.arc.Unremovable;
-import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.context.SessionScoped;
+
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 

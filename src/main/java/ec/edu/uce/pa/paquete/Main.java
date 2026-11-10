@@ -1,5 +1,8 @@
 package ec.edu.uce.pa.paquete;
 
+import ec.edu.uce.pa.paquete.extensiones.NotificacionExtensionMail;
+import ec.edu.uce.pa.paquete.extensiones.NotificacionExtensionSMS;
+import ec.edu.uce.pa.paquete.extensiones.NotificacionExtensionWhatsApp;
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
@@ -9,8 +12,16 @@ import jakarta.inject.Inject;
 public class Main implements QuarkusApplication {
 
     @Inject
-    private PedidoService pedidoService;
-  
+    private CompraService compraService;
+
+    @Inject
+    private NotificacionExtensionMail notificacionExtensionMail;
+
+    @Inject
+    private NotificacionExtensionSMS notificacionExtensionSMS;
+
+    @Inject
+    private NotificacionExtensionWhatsApp notificacionExtensionWhatsApp;
 
     public static void main(String[] args) {
         Quarkus.run(Main.class, args);
@@ -21,10 +32,14 @@ public class Main implements QuarkusApplication {
     public int run(String... args) {
         System.out.println("Iniciando la aplicacion Quarkus...");
 
-        Pedido pedido = new Pedido("Bryan Columba", "Laptop", 1250, "bryan@gmail.com");// crear manualmente el objeto de la
-        pedido.setTelefono("1215454545"); // // clase Pedido
-        this.pedidoService.realizar(pedido,"");
+        Compra compra = new Compra("Juan", "Laptop", 2000, "bryan@gmail.com", "1253354112");
+        compraService.realizar(compra, this.notificacionExtensionMail);
 
+        Compra compra1 = new Compra("Bryan", "PSP", 2000, "bryan@gmail.com", "1253354112");
+        compraService.realizar(compra1, this.notificacionExtensionSMS);
+
+        Compra compra2 = new Compra("Mateo", "Lavadora", 2000, "bryan@gmail.com", "1253354112");
+        compraService.realizar(compra2, this.notificacionExtensionWhatsApp);
 
         return 0;
 
